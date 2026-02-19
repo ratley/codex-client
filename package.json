@@ -1,14 +1,28 @@
 {
-  "name": "codex-client",
+  "name": "orca-codex-client",
+  "version": "0.1.0",
+  "description": "Codex API client for orcastrator",
   "module": "src/index.ts",
   "main": "src/index.ts",
   "exports": {
     ".": "./src/index.ts"
   },
   "type": "module",
-  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ratley/codex-client.git"
+  },
+  "license": "MIT",
+  "author": "ratley",
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "typescript": "^5"
   },
   "peerDependencies": {
     "typescript": "^5"
