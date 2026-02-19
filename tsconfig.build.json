@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "allowImportingTsExtensions": false,
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationDir": "./dist",
+    "module": "ES2022",
+    "moduleResolution": "Node"
+  },
+  "include": ["src"],
+  "exclude": ["src/__tests__"]
+}

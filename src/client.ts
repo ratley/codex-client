@@ -283,11 +283,12 @@ export class CodexClient extends EventEmitter {
         agentMessagesByTurn.get(turn.id) ?? new Map<string, string>(),
       );
 
+      const diff = diffByTurn.get(turn.id);
       return {
         turn: completedTurn,
         items,
         agentMessage,
-        diff: diffByTurn.get(turn.id),
+        ...(diff !== undefined ? { diff } : {}),
       };
     } finally {
       this.off("_internal:itemCompleted", onItemCompleted);
@@ -537,12 +538,13 @@ function extractTurn(result: unknown): Turn {
 
 function extractThreadList(result: unknown): ThreadListResult {
   if (isObject(result) && Array.isArray(result.data)) {
+    const nextCursor =
+      typeof result.nextCursor === "string" || result.nextCursor === null
+        ? result.nextCursor
+        : undefined;
     return {
       data: result.data.filter(isThread),
-      nextCursor:
-        typeof result.nextCursor === "string" || result.nextCursor === null
-          ? result.nextCursor
-          : undefined,
+      ...(nextCursor !== undefined ? { nextCursor } : {}),
     };
   }
 
@@ -560,12 +562,13 @@ function extractModelList(result: unknown): ModelListResult {
       );
     });
 
+    const nextCursor =
+      typeof result.nextCursor === "string" || result.nextCursor === null
+        ? result.nextCursor
+        : undefined;
     return {
       data,
-      nextCursor:
-        typeof result.nextCursor === "string" || result.nextCursor === null
-          ? result.nextCursor
-          : undefined,
+      ...(nextCursor !== undefined ? { nextCursor } : {}),
     };
   }
 
@@ -689,8 +692,9 @@ function asPlanUpdatedNotification(params: unknown): PlanUpdatedNotification | n
     typeof params.turnId === "string" &&
     Array.isArray(params.plan)
   ) {
+    const threadId = typeof params.threadId === "string" ? params.threadId : undefined;
     return {
-      threadId: typeof params.threadId === "string" ? params.threadId : undefined,
+      ...(threadId !== undefined ? { threadId } : {}),
       turnId: params.turnId,
       plan: params.plan as PlanEntry[],
     };

@@ -2,14 +2,17 @@
   "name": "orca-codex-client",
   "version": "0.1.0",
   "description": "Codex API client for orcastrator",
-  "module": "src/index.ts",
-  "main": "src/index.ts",
+  "module": "dist/index.js",
+  "main": "dist/index.js",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   },
   "type": "module",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc -p tsconfig.build.json"
   },
   "files": [
     "dist"
