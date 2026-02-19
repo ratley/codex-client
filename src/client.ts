@@ -1,5 +1,5 @@
 import { EventEmitter } from "node:events";
-import { StdioTransport, isJsonRpcNotification } from "./transport";
+import { StdioTransport, isJsonRpcNotification } from "./transport.js";
 import type {
   AgentMessageDeltaNotification,
   CodexClientOptions,
@@ -30,7 +30,7 @@ import type {
   Turn,
   TurnCompletedNotification,
   TurnStartedNotification,
-} from "./types";
+} from "./types.js";
 
 const TURN_TIMEOUT_MS = 5 * 60 * 1000;
 const DEFAULT_TIMEOUT_MS = 30 * 1000;
