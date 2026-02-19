@@ -198,6 +198,7 @@ export interface CodexClientOptions {
   approvalPolicy?: "never" | "unlessTrusted" | "always";
   sandbox?: string;
   experimentalApi?: boolean;
+  codexPath?: string;
 }
 
 export interface TurnStartedNotification {

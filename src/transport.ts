@@ -49,8 +49,8 @@ export class StdioTransport {
       });
   }
 
-  static spawn(cwd: string): StdioTransport {
-    const child = Bun.spawn(["codex", "app-server"], {
+  static spawn(cwd: string, codexPath = "codex"): StdioTransport {
+    const child = Bun.spawn([codexPath, "app-server"], {
       cwd,
       stdin: "pipe",
       stdout: "pipe",

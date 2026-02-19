@@ -53,8 +53,9 @@ const DEFAULT_OPTIONS: Required<CodexClientOptions> = {
   model: "gpt-5.3-codex",
   cwd: process.cwd(),
   approvalPolicy: "never",
-  sandbox: "workspaceWrite",
+  sandbox: "workspace-write",
   experimentalApi: true,
+  codexPath: "codex",
 };
 
 export class CodexClient extends EventEmitter {
@@ -76,12 +77,13 @@ export class CodexClient extends EventEmitter {
       approvalPolicy: options.approvalPolicy ?? DEFAULT_OPTIONS.approvalPolicy,
       sandbox: options.sandbox ?? DEFAULT_OPTIONS.sandbox,
       experimentalApi: options.experimentalApi ?? DEFAULT_OPTIONS.experimentalApi,
+      codexPath: options.codexPath ?? DEFAULT_OPTIONS.codexPath,
     };
 
     this.transportFactory =
       options.transportFactory ??
       ((cwd: string) => {
-        return StdioTransport.spawn(cwd);
+        return StdioTransport.spawn(cwd, this.options.codexPath);
       });
   }
 
