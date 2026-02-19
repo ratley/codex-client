@@ -84,7 +84,7 @@ export class StdioTransport {
       },
       stdout,
       exited,
-      kill: (signal?: string) => child.kill(signal),
+      kill: (signal?: string) => { if (signal) { child.kill(signal as Parameters<typeof child.kill>[0]); } else { child.kill(); } },
     });
   }
 
