@@ -1,3 +1,5 @@
+import { spawn as nodeSpawn } from "node:child_process";
+import { Readable } from "node:stream";
 import type {
   JsonRpcError,
   JsonRpcMessage,
@@ -50,14 +52,40 @@ export class StdioTransport {
   }
 
   static spawn(cwd: string, codexPath = "codex"): StdioTransport {
-    const child = Bun.spawn([codexPath, "app-server"], {
+    // Use Bun.spawn when running under Bun, Node child_process otherwise
+    if (typeof globalThis.Bun !== "undefined") {
+      const child = globalThis.Bun.spawn([codexPath, "app-server"], {
+        cwd,
+        stdin: "pipe",
+        stdout: "pipe",
+        stderr: "inherit",
+      });
+      return new StdioTransport(child as unknown as StdioProcess);
+    }
+
+    const child = nodeSpawn(codexPath, ["app-server"], {
       cwd,
-      stdin: "pipe",
-      stdout: "pipe",
-      stderr: "inherit",
+      stdio: ["pipe", "pipe", "inherit"],
     });
 
-    return new StdioTransport(child as unknown as StdioProcess);
+    const stdout = child.stdout
+      ? (Readable.toWeb(child.stdout) as ReadableStream<Uint8Array>)
+      : null;
+
+    const exited = new Promise<number>((resolve, reject) => {
+      child.on("close", (code) => resolve(code ?? 0));
+      child.on("error", reject);
+    });
+
+    return new StdioTransport({
+      stdin: {
+        write: (data: string) => child.stdin?.write(data),
+        end: () => child.stdin?.end(),
+      },
+      stdout,
+      exited,
+      kill: (signal?: string) => child.kill(signal),
+    });
   }
 
   send(message: JsonRpcMessage): void {
