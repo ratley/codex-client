@@ -1,6 +1,6 @@
 {
   "name": "orca-codex-client",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Codex API client for orcastrator",
   "module": "dist/index.js",
   "main": "dist/index.js",
