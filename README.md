@@ -1,6 +1,6 @@
-# orca-codex-client
+# Codex App Client
 
-TypeScript client for the Codex app-server stdio JSON-RPC protocol.
+TypeScript client for the [Codex App Server](https://developers.openai.com/codex/app-server/) stdio JSON-RPC protocol.
 
 ## Install
 
