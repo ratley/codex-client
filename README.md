@@ -5,15 +5,15 @@ TypeScript client for the [Codex App Server](https://developers.openai.com/codex
 ## Install
 
 ```sh
-npm install orca-codex-client
+npm install @ratley/codex-client
 # or
-bun add orca-codex-client
+bun add @ratley/codex-client
 ```
 
 ## Quick Start
 
 ```ts
-import { CodexClient } from "orca-codex-client";
+import { CodexClient } from "@ratley/codex-client";
 
 const client = new CodexClient({
   model: "gpt-5.3-codex",
